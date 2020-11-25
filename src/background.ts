@@ -1,6 +1,6 @@
 "use strict";
 
-import { app, protocol, BrowserWindow } from "electron";
+import { app, protocol, BrowserWindow, systemPreferences } from "electron";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
 import installExtension, { VUEJS_DEVTOOLS } from "electron-devtools-installer";
 const isDevelopment = process.env.NODE_ENV !== "production";
@@ -28,6 +28,27 @@ async function createWindow() {
 		// Load the index.html when not in development
 		win.loadURL("app://./index.html");
 	}
+	askForMediaAccess();
+}
+
+async function askForMediaAccess(): Promise<boolean> {
+	try {
+		if (process.platform !== "darwin") return true;
+
+		const status = await systemPreferences.getMediaAccessStatus("microphone");
+		console.info("Current microphone access status:", status);
+
+		if (status === "not-determined") {
+			const success = await systemPreferences.askForMediaAccess("microphone");
+			console.info("Result of microphone access:", success.valueOf() ? "granted" : "denied");
+			return success.valueOf();
+		}
+
+		return status === "granted";
+	} catch (error) {
+		console.error("Could not get microphone permission:", error.message);
+	}
+	return false;
 }
 
 // Quit when all windows are closed.
@@ -63,7 +84,7 @@ app.on("ready", async () => {
 // Exit cleanly on request from parent process in development mode.
 if (isDevelopment) {
 	if (process.platform === "win32") {
-		process.on("message", (data) => {
+		process.on("message", data => {
 			if (data === "graceful-exit") {
 				app.quit();
 			}

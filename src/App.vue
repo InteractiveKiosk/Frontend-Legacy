@@ -88,7 +88,10 @@ button {
 
 	&.btn-round {
 		border-radius: 50%;
-		padding: 10px 20px;
+		display: flex;
+		justify-content: center;
+		align-self: center;
+		padding: 10px;
 	}
 
 	&:hover {

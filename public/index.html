@@ -1,17 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <title><%= htmlWebpackPlugin.options.title %></title>
-  </head>
-  <body>
-    <noscript>
-      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
-    </noscript>
-    <div id="app"></div>
-    <!-- built files will be auto injected -->
-  </body>
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+		<link rel="icon" href="<%= htmlWebpackPlugin.options.favicon_ico %>" />
+		<link rel="icon" href="<%= htmlWebpackPlugin.options.icon_36 %>" sizes="36x36" />
+		<link rel="icon" href="<%= htmlWebpackPlugin.options.icon_48 %>" sizes="48x48" />
+		<link rel="icon" href="<%= htmlWebpackPlugin.options.icon_72 %>" sizes="72x72" />
+		<link rel="icon" href="<%= htmlWebpackPlugin.options.icon_96 %>" sizes="96x96" />
+		<link rel="icon" href="<%= htmlWebpackPlugin.options.icon_144 %>" sizes="144x144" />
+		<link rel="icon" href="<%= htmlWebpackPlugin.options.icon_192 %>" sizes="192x192" />
+		<title><%= htmlWebpackPlugin.options.title %></title>
+	</head>
+	<body>
+		<noscript>
+			<strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+		</noscript>
+		<div id="app"></div>
+	</body>
 </html>

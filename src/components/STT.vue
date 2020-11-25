@@ -50,21 +50,7 @@ export default class STT extends Vue {
 	async trans() {
 		console.log("변환 시작");
 		try {
-			let result = (
-				await axios.post("https://naveropenapi.apigw.ntruss.com/recog/v1/stt", this.blob, {
-					params: {
-						lang: "Kor",
-					},
-					headers: {
-						"Content-Type": "application/octet-stream",
-						"X-NCP-APIGW-API-KEY-ID": "",
-						"X-NCP-APIGW-API-KEY": "",
-					},
-					withCredentials: true,
-				})
-			).data.text;
-			console.log("변환 종료");
-			this.text = result;
+			this.text = await this.$store.dispatch("STT", this.blob);
 		} catch (err) {
 			console.log(err);
 		}

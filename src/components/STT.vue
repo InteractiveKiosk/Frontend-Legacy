@@ -38,6 +38,9 @@ export default class STT extends Vue {
 			this.url = URL.createObjectURL(this.blob);
 		});
 	}
+	mounted() {
+		this.$emit("trans", "사가 8개 라면 네개");
+	}
 
 	start() {
 		this.mediaRecorder.start();
@@ -51,6 +54,7 @@ export default class STT extends Vue {
 		console.log("변환 시작");
 		try {
 			this.text = await this.$store.dispatch("STT", this.blob);
+			this.$emit("trans", this.text);
 		} catch (err) {
 			console.log(err);
 		}

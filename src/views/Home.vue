@@ -17,40 +17,44 @@ import { Component, Vue } from "vue-property-decorator";
 import Store from "@/store";
 import STT from "@/components/STT.vue";
 import TTS from "@/components/TTS.vue";
-import { TouchBarButton } from 'electron';
+import { TouchBarButton } from "electron";
 
 const HANGUL_NUMBER = {
-	"한": 1,
-	"둘": 2,
-	"두": 2,
-	"셋": 3,
-	"세": 3,
-	"넷": 4,
-	"네": 4,
-	"다섯": 5,
-	"여섯": 6,
-	"일곱": 7,
-	"여덟": 8,
-	"아홉": 9
+	한: 1,
+	둘: 2,
+	두: 2,
+	셋: 3,
+	세: 3,
+	넷: 4,
+	네: 4,
+	다섯: 5,
+	여섯: 6,
+	일곱: 7,
+	여덟: 8,
+	아홉: 9,
 };
-const HANGUL_NUMBER_LIST = [
-	"한", "둘", "두", "셋", "세", "넷", "네", "다섯", "여섯", "일곱", "여덟", "아홉"
-];
+const HANGUL_NUMBER_LIST = ["한", "둘", "두", "셋", "세", "넷", "네", "다섯", "여섯", "일곱", "여덟", "아홉"];
 
 @Component({
 	components: { STT, TTS },
 })
 export default class Home extends Vue {
 	total: {
-		name: string,
+		name: string;
 		index: number;
 		price: number;
 		amount: number;
 	}[] = [];
 
+	mounted() {
+		navigator.mediaDevices.addEventListener("devicechange", event => {
+			this.$router.replace("/order");
+		});
+	}
+
 	onTransSTT(result: string) {
 		let order: {
-			name: string,
+			name: string;
 			index: number;
 			price: number;
 			amount: number;
@@ -61,11 +65,7 @@ export default class Home extends Vue {
 			// 모든 별명 확인
 			for (let i = 0; i < item.alias.length; i++) {
 				// 수량만 묶어 가져옴
-				let match = result.match(
-					new RegExp(
-						`${item.alias[i]}.*?([\\d${HANGUL_NUMBER_LIST.join("")}])`
-					)
-				);
+				let match = result.match(new RegExp(`${item.alias[i]}.*?([\\d${HANGUL_NUMBER_LIST.join("")}])`));
 
 				// 수량이 감지될 경우 주문으로 넣음
 				if (match && match.length > 1) {
@@ -92,7 +92,7 @@ export default class Home extends Vue {
 						name: item.name,
 						index: index,
 						price: item.price,
-						amount: count
+						amount: count,
 					});
 					break;
 				}
@@ -111,7 +111,7 @@ export default class Home extends Vue {
 					} else {
 						this.total.push(pay);
 					}
-				}
+				},
 			});
 		});
 	}
@@ -126,8 +126,6 @@ export default class Home extends Vue {
 	align-self: center;
 
 	max-width: 720px;
-
-	color: $disabled-color;
 
 	img {
 		width: 300px;

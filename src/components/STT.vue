@@ -1,10 +1,10 @@
 <template>
 	<div class="stt">
 		<audio :src="url" controls></audio>
-		<button @click="start">start</button>
-		<button @click="stop">stop</button>
-		<button @click="trans1">trans1</button>
-		<button @click="trans2">trans2</button>
+		<button @click="start">녹음 시작</button>
+		<button @click="stop">녹음 종료</button>
+		<button @click="trans">텍스트로 변환</button>
+		<div>결과 : {{ text }}</div>
 	</div>
 </template>
 
@@ -27,6 +27,8 @@ export default class STT extends Vue {
 	blob: Blob | null = null;
 	mediaRecorder!: MediaRecorder;
 
+	text: string = "";
+
 	async created() {
 		let stream = await navigator.mediaDevices.getUserMedia({ audio: true });
 
@@ -45,51 +47,24 @@ export default class STT extends Vue {
 		this.mediaRecorder.stop();
 	}
 
-	async trans1() {
+	async trans() {
 		console.log("변환 시작");
 		try {
-			let result = await axios.post("https://naveropenapi.apigw.ntruss.com/recog/v1/stt", this.blob, {
-				params: {
-					lang: "Kor",
-				},
-				headers: {
-					"Content-Type": "application/octet-stream",
-					"X-NCP-APIGW-API-KEY-ID": "",
-					"X-NCP-APIGW-API-KEY": "",
-				},
-				withCredentials: true,
-			});
+			let result = (
+				await axios.post("https://naveropenapi.apigw.ntruss.com/recog/v1/stt", this.blob, {
+					params: {
+						lang: "Kor",
+					},
+					headers: {
+						"Content-Type": "application/octet-stream",
+						"X-NCP-APIGW-API-KEY-ID": "",
+						"X-NCP-APIGW-API-KEY": "",
+					},
+					withCredentials: true,
+				})
+			).data.text;
 			console.log("변환 종료");
-			console.log(result);
-		} catch (err) {
-			console.log(err);
-		}
-	}
-	async trans2() {
-		console.log("변환 시작");
-		let blobToFile = (theBlob: Blob, fileName: string): File => {
-			var b: any = theBlob;
-			//A Blob() is almost a File() - it's just missing the two properties below which we will add
-			b.lastModifiedDate = new Date();
-			b.name = fileName;
-
-			//Cast to a File() type
-			return <File>theBlob;
-		};
-		try {
-			let result = await axios.post("https://naveropenapi.apigw.ntruss.com/recog/v1/stt", blobToFile(this.blob!, "test"), {
-				params: {
-					lang: "Kor",
-				},
-				headers: {
-					"Content-Type": "application/octet-stream",
-					"X-NCP-APIGW-API-KEY-ID": "",
-					"X-NCP-APIGW-API-KEY": "",
-				},
-				withCredentials: true,
-			});
-			console.log("변환 종료");
-			console.log(result);
+			this.text = result;
 		} catch (err) {
 			console.log(err);
 		}

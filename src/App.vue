@@ -10,4 +10,7 @@
 	padding: 0;
 	box-sizing: border-box;
 }
+html {
+	background-color: white;
+}
 </style>

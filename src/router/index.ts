@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
 import Home from "../views/Home.vue";
 import Order from "../views/Order.vue";
+import Admin from "../views/Admin.vue";
 
 Vue.use(VueRouter);
 
@@ -15,6 +16,11 @@ const routes: Array<RouteConfig> = [
 		path: "/order",
 		name: "Order",
 		component: Order,
+	},
+	{
+		path: "/admin",
+		name: "Admin",
+		component: Admin,
 	},
 ];
 

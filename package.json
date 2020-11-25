@@ -12,7 +12,7 @@
   },
   "main": "background.js",
   "dependencies": {
-    "@types/dom-mediacapture-record": "^1.0.7",
+    "@iconify/iconify": "^1.0.7",
     "axios": "^0.21.0",
     "core-js": "^3.6.5",
     "register-service-worker": "^1.7.1",
@@ -24,6 +24,7 @@
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",
+    "@types/dom-mediacapture-record": "^1.0.7",
     "@types/electron-devtools-installer": "^2.2.0",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-pwa": "~4.5.0",

@@ -48,15 +48,15 @@ export default new Vuex.Store({
 		],
 	},
 	mutations: {
-		// 수량 업데이트
-		updateStockQuantity(
+		// 재고 업데이트
+		updateStock(
 			state,
 			payload: {
 				index: number; // 상품 인덱스
 				amount: number; // 필요 개수
 				callback?: (
 					error: null | {
-						// 오류 상태 알려주기
+						// 오류 상태 콜백
 						type: string;
 					}
 				) => void;

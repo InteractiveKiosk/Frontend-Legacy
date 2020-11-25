@@ -1,6 +1,8 @@
 <template>
 	<div id="app">
 		<router-view class="router" />
+		<img src="https://firebasestorage.googleapis.com/v0/b/interactive-kiosk.appspot.com/o/undraw_Payments_re_77x0.svg?alt=media&token=9c846d06-e185-4383-a40c-9f19511cd747" alt="Payments Image" />
+		<img src="https://firebasestorage.googleapis.com/v0/b/interactive-kiosk.appspot.com/o/undraw_shopping_app_flsj.svg?alt=media&token=c42c6b8c-293e-4b78-bc63-256e072cc012" alt="Order Image" />
 	</div>
 </template>
 
@@ -53,6 +55,10 @@
 	height: 100vh;
 	display: flex;
 	justify-content: center;
+
+	> img {
+		display: none;
+	}
 }
 .router {
 	height: 100%;
@@ -71,34 +77,57 @@ button {
 	border: none;
 	outline: none;
 
+	font-size: 24px;
+
 	padding: 10px 20px;
 
-	&.btn-small {
-		padding: 10px;
+	box-shadow: 3px 3px 5px rgba($color: #000000, $alpha: 0.4);
+
+	&.secondary {
+		background-color: $secondary-color;
 	}
 
-	&:disabled {
-		background-color: $disabled-color;
-		cursor: not-allowed;
+	&.small {
+		padding: 2px 5px;
 	}
 
-	&.btn-large {
-		padding: 10px 20%;
+	&.large {
+		padding: 20px;
 	}
 
-	&.btn-round {
+	&.block {
+		display: block;
+		width: ;
+	}
+
+	&.round {
 		border-radius: 50%;
 		display: flex;
+		flex-direction: column;
 		justify-content: center;
 		align-self: center;
-		padding: 10px;
-	}
+		padding: 15px;
 
+		&.small {
+			padding: 10px;
+		}
+
+		&.large {
+			padding: 20px;
+		}
+	}
 	&:hover {
 		filter: brightness(1.1);
 	}
 	&:active {
 		filter: brightness(0.9);
+	}
+	&:disabled {
+		background-color: $disabled-color;
+		cursor: not-allowed;
+		&:hover {
+			filter: brightness(1);
+		}
 	}
 }
 
@@ -117,13 +146,53 @@ input[type="text"] {
 	border-bottom: 1px solid $text-color;
 	color: $text-color;
 
-	&.firebaseui-id-name {
-		color: black !important;
-	}
-
 	&:disabled {
 		background-color: $content-color;
 		cursor: not-allowed;
+	}
+}
+
+header {
+	display: flex;
+	justify-content: space-between;
+
+	margin-top: 30px;
+	padding: 10px;
+
+	h1 {
+		font-size: 60px;
+	}
+
+	button .iconify {
+		font-size: 40px;
+	}
+}
+
+i.iconify {
+	font-size: 30px;
+}
+
+.container {
+	margin-top: 60px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	img.cover {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 500px;
+		margin: auto;
+	}
+}
+
+.group {
+	display: flex;
+
+	div,
+	button {
+		margin: 0 10px;
 	}
 }
 </style>

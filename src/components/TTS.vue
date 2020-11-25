@@ -10,7 +10,7 @@ import { Component, Vue } from "vue-property-decorator";
 export default class STT extends Vue {
 	async test() {
 		try {
-			let result = await this.$store.dispatch("TTS");
+			let result = await this.$store.dispatch("TTS", { text: "안녕하세요. 음성합성 테스트입니다." });
 		} catch (err) {
 			console.log(err);
 		}

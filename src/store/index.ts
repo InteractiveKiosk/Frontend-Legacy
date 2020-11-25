@@ -15,7 +15,7 @@ export default new Vuex.Store({
 					"https://naveropenapi.apigw.ntruss.com/voice-premium/v1/tts",
 					qs.stringify({
 						speaker: "nara",
-						text: "텍스트",
+						text: data.text,
 						volume: "0",
 						speed: "0",
 						pitch: "0",

@@ -15,9 +15,6 @@ export default class App extends Vue {
 	mounted() {
 		// window.addEventListener("mousedown", this.mouseDown);
 		// window.addEventListener("mouseup", this.mouseUp);
-
-		// todo
-		$tore.commit("setTmpStock");
 	}
 
 	// mouseDown(event: MouseEvent) {}
@@ -70,14 +67,14 @@ export default class App extends Vue {
 	box-sizing: border-box;
 	font-family: "Noto Sans KR", sans-serif;
 }
-*::selection {
-	background-color: $select-color;
-}
-*:link,
-*:visited {
-	text-decoration: none;
-	color: $text-color;
-}
+// *::selection {
+// 	background-color: $select-color;
+// }
+// *:link,
+// *:visited {
+// 	text-decoration: none;
+// 	color: $text-color;
+// }
 ::-webkit-scrollbar {
 	width: 5px;
 	height: 5px;
@@ -91,7 +88,7 @@ html {
 	// right: 0;
 	// top: 0;
 	// bottom: 0;
-
+	user-select: none;
 	word-break: keep-all;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
@@ -293,7 +290,8 @@ i.iconify {
 		}
 
 		img {
-			width: 50px;
+			width: 60px;
+			height: 60px;
 			margin-right: 10px;
 			border-radius: 50px;
 		}

@@ -9,47 +9,49 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
 	state: {
-		stock: [] as StockItem[],
+		stock: [
+			{
+				name: "사과",
+				alias: ["사과", "사가"],
+				price: 1000,
+				quantity: 10,
+				image: "apple.jpg",
+			},
+			{
+				name: "라면",
+				alias: ["라면", "라멘", "나면"],
+				price: 500,
+				quantity: 10,
+				image: "ramen.jpg",
+			},
+			{
+				name: "파스타",
+				alias: ["파스타", "스파게티", "스파게리", "수파게티", "파수타"],
+				price: 10000,
+				quantity: 10,
+				image: "pasta.jpg",
+			},
+			{
+				name: "복숭아",
+				alias: ["복숭아", "봉숭아", "보숭아", "보숭이", "복숭", "보숭"],
+				price: 2000,
+				quantity: 10,
+				image: "peach.jpg",
+			},
+			{
+				name: "우유",
+				alias: ["우유", "우우", "유유", "으유"],
+				price: 3500,
+				quantity: 10,
+				image: "milk.jpg",
+			},
+		] as StockItem[],
 		earphoneDetection: false,
 		isElectron: process.env.IS_ELECTRON ? true : false,
 	},
 	mutations: {
 		activateEarphoneDetection(state, payload) {
 			state.earphoneDetection = true;
-		},
-		setTmpStock(state, payload) {
-			state.stock = [
-				{
-					name: "사과",
-					price: 1000,
-					alias: ["사과", "사가"],
-					quantity: 10,
-				},
-				{
-					name: "라면",
-					price: 500,
-					alias: ["라면", "라멘", "나면"],
-					quantity: 10,
-				},
-				{
-					name: "파스타",
-					price: 10000,
-					alias: ["파스타", "스파게티", "스파게리", "수파게티", "파수타"],
-					quantity: 10,
-				},
-				{
-					name: "복숭아",
-					price: 2000,
-					alias: ["복숭아", "봉숭아", "보숭아", "보숭이", "복숭", "보숭"],
-					quantity: 10,
-				},
-				{
-					name: "우유",
-					price: 3500,
-					alias: ["우유", "우우", "유유", "으유"],
-					quantity: 10,
-				},
-			];
 		},
 		updateStock(
 			state,

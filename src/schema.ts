@@ -3,6 +3,7 @@ export interface StockItem {
 	price: number;
 	alias: string[];
 	quantity: number;
+	image: string;
 }
 
 export interface ShoppingCart {

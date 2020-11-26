@@ -4,3 +4,10 @@ export interface StockItem {
 	alias: string[];
 	quantity: number;
 }
+
+export interface ShoppingCart {
+	name: string;
+	index: number;
+	price: number;
+	quantity: number;
+}

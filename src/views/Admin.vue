@@ -5,9 +5,9 @@
 			<button class="round small" @click="$router.replace('/')">
 				<i class="iconify home" data-icon="mdi-home"></i>
 			</button>
-			재고 목록
-			{{ stock }}
 		</header>
+		재고 목록
+		{{ stock }}
 	</div>
 </template>
 
@@ -24,13 +24,6 @@ export default class Admin extends Vue {
 
 <style lang="scss" scoped>
 .admin {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-self: center;
-
-	max-width: 720px;
-
 	.home {
 		font-size: 30px;
 	}

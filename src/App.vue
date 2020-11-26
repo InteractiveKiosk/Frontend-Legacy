@@ -97,22 +97,23 @@ html {
 // body {
 // 	width: 100%;
 // 	height: 100%;
-// 	overflow-x: hidden;
-// 	overflow-y: auto;
+// 	// overflow-x: hidden;
+// 	// overflow-y: auto;
 // }
 #app {
 	width: 100%;
 	height: 100vh;
-	display: flex;
-	justify-content: center;
 }
 .router {
 	width: 100%;
 	height: 100%;
 
-	max-width: 720px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 
-	overflow: hidden;
+	overflow-x: hidden;
+	overflow-y: auto;
 }
 
 .fade-enter-active,
@@ -215,6 +216,11 @@ input[type="text"] {
 header {
 	display: flex;
 	justify-content: space-between;
+	align-items: center;
+
+	position: absolute;
+	width: 100%;
+	max-width: 720px;
 
 	padding: 20px;
 
@@ -236,13 +242,26 @@ i.iconify {
 	flex-direction: column;
 	align-items: center;
 
-	img.cover {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		width: 250px;
-		margin: 0 auto 80px auto;
+	width: 100%;
+	height: 100%;
+
+	max-width: 720px;
+
+	&.container-top {
+		margin-top: 120px;
 	}
+
+	&.container-center {
+		justify-content: center;
+	}
+}
+
+img.cover {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 250px;
+	margin: 0 auto 80px auto;
 }
 
 .vgroup {
@@ -309,7 +328,26 @@ i.iconify {
 				font-size: 22px;
 			}
 		}
+
+		.product-option {
+			background-color: $content-color;
+		}
 	}
+}
+
+footer {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+
+	position: absolute;
+	top: auto;
+	bottom: 0;
+
+	width: 100%;
+	max-width: 720px;
+
+	padding: 20px;
 }
 
 .electron {

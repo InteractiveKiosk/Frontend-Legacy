@@ -3,7 +3,7 @@
 		<header>
 			<h1>환영합니다</h1>
 		</header>
-		<div class="container">
+		<div class="container container-center">
 			<img class="cover" src="/assets/images/payments.svg" alt="Payments Image" draggable="false" />
 
 			<div v-if="isElectron" class="vgroup">
@@ -21,6 +21,7 @@
 			</div>
 		</div>
 		<footer>
+			<p>Interactive Kiosk</p>
 			<button class="secondary round small" @click="$router.replace('/admin')">
 				<i class="iconify key" data-icon="mdi-key"></i>
 			</button>

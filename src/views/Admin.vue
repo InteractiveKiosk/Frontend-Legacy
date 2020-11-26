@@ -6,8 +6,10 @@
 				<i class="iconify home" data-icon="mdi-home"></i>
 			</button>
 		</header>
-		재고 목록
-		{{ stock }}
+		<div class="container container-top">
+			재고 목록
+			{{ stock }}
+		</div>
 	</div>
 </template>
 

@@ -6,10 +6,10 @@
 				<i class="iconify" data-icon="mdi-home"></i>
 			</button>
 		</header>
-		<div class="container">
+		<div class="container container-top">
 			<div class="product-container">
 				<div v-for="(item, idx) in stock">
-					<div class="product" @click="toggleFold">
+					<div class="product" @click="toggleVisibility">
 						<img :src="`/assets/products/${item.image}`" :alt="item.name" />
 						<div class="product-innergroup">
 							<span class="name">{{ item.name }}</span>
@@ -17,11 +17,11 @@
 						</div>
 					</div>
 					<div class="product-option exposed">
-						<button class="action-decrease" @click="minousItemCount(item)">-</button>
-						<p>×{{ shoppingCart[item.name].quantity || 1 }}</p>
-						<button class="action-increase" @click="plusItemCount(item)">+</button>
+						<button class="action-decrease round" @click="decreaseItemQuantity(item)">&minus;</button>
+						<!-- <p>&times;{{ shoppingCart[item.name].quantity || 1 }}</p> -->
+						<button class="action-increase round" @click="increaseItemQuantity(item)">&plus;</button>
 
-						<button></button>
+						<button>장바구니에 추가</button>
 					</div>
 				</div>
 			</div>
@@ -40,7 +40,10 @@ export default class Order extends Vue {
 	stock: StockItem[] = $tore.state.stock;
 	shoppingCart: ShoppingCart[] = [];
 
-	toggleFold() {}
+	numberFormat(number: number) {
+		return numberFormat(number);
+	}
+	toggleVisibility() {}
 }
 </script>
 

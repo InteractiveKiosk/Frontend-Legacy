@@ -17,6 +17,7 @@ async function createWindow() {
 			webSecurity: false,
 			nodeIntegration: true,
 		},
+		show: false,
 	});
 
 	if (process.env.WEBPACK_DEV_SERVER_URL) {
@@ -28,7 +29,11 @@ async function createWindow() {
 		// Load the index.html when not in development
 		win.loadURL("app://./index.html");
 	}
-	askForMediaAccess();
+
+	win.once("ready-to-show", () => {
+		win.show();
+		askForMediaAccess();
+	});
 }
 
 async function askForMediaAccess(): Promise<boolean> {

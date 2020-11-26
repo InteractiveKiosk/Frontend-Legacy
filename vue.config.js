@@ -1,7 +1,8 @@
 const storage = `https://firebasestorage.googleapis.com/v0/b/interactive-kiosk.appspot.com/o/`;
 module.exports = {
+	// publicPath: process.env.IS_ELECTRON ? "app://." : process.env.BASE_URL,
 	// publicPath: process.env.NODE_ENV === "production" ? "/Frontend/" : "/",
-	outputDir: "docs",
+	// outputDir: "docs",
 	// devServer: {
 	// 	https: true,
 	// 	hotOnly: false,
@@ -18,6 +19,14 @@ module.exports = {
 		loaderOptions: {
 			scss: {
 				prependData: `@import "@/variables.scss";`,
+			},
+		},
+	},
+	pluginOptions: {
+		electronBuilder: {
+			chainWebpackRendererProcess(config) {
+				config.plugins.delete("workbox");
+				config.plugins.delete("pwa");
 			},
 		},
 	},

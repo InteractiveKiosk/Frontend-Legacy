@@ -8,11 +8,11 @@
 		</header>
 		<div class="container">
 			<div class="product-container">
-				<div v-for="i in 10" class="product">
-					<img src="/assets/products/apple.jpg" alt="Apple" />
+				<div v-for="(item, idx) in stock" class="product">
+					<img :src="`/assets/products/${item.image}`" :alt="item.name" />
 					<div class="product-innergroup">
-						<span class="name">Apple</span>
-						<span class="price">10,000원</span>
+						<span class="name">{{ item.name }}</span>
+						<span class="price">{{ numberFormat(item.price) }}원</span>
 					</div>
 				</div>
 			</div>
@@ -29,8 +29,8 @@ import { StockItem } from "@/schema";
 export default class Order extends Vue {
 	stock: StockItem[] = $tore.state.stock;
 
-	get isElectron() {
-		return $tore.state.isElectron;
+	numberFormat(number: number): string {
+		return new Intl.NumberFormat().format(number);
 	}
 }
 </script>

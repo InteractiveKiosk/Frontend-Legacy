@@ -16,14 +16,14 @@
 							<span class="price">{{ numberFormat(item.price) }}원</span>
 						</div>
 					</div>
-					<div class="product-option exposed">
-						<button class="action-decrease round" @click="decreaseItemQuantity(item)">&minus;</button>
-						<!-- <p>&times;{{ shoppingCart[item.name].quantity || 1 }}</p> -->
-						<button class="action-increase round" @click="increaseItemQuantity(item)">&plus;</button>
-
-						<button>장바구니에 추가</button>
-					</div>
 				</div>
+			</div>
+			<div class="product-preview">
+				<button class="action-decrease round" @click="decreaseItemQuantity(item)">&minus;</button>
+				<!-- <p>&times;{{ shoppingCart[item.name].quantity || 1 }}</p> -->
+				<button class="action-increase round" @click="increaseItemQuantity(item)">&plus;</button>
+
+				<button>장바구니에 추가</button>
 			</div>
 		</div>
 	</div>
@@ -48,6 +48,142 @@ export default class Order extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.order {
+.product-container {
+	width: 100%;
+	.product {
+		border-left: 5px solid #00000000;
+
+		&:hover {
+			border-left: 5px solid $primary-color;
+		}
+
+		&:nth-child(odd) {
+			background-color: $background-color;
+		}
+		&:nth-child(even) {
+			background-color: $secondary-color;
+		}
+
+		.product-group {
+			display: flex;
+			flex-direction: row;
+			justify-content: flex-start;
+			align-items: center;
+
+			padding: 15px 20px;
+
+			cursor: pointer;
+
+			img {
+				width: 60px;
+				height: 60px;
+				margin-right: 10px;
+				border-radius: 50px;
+			}
+		}
+		.product-innergroup {
+			display: flex;
+			flex-direction: column;
+			font-weight: 500;
+
+			span.name {
+				font-size: 20px;
+			}
+
+			span.price {
+				font-size: 22px;
+			}
+		}
+	}
+
+	.product-preview-container {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+		position: absolute;
+		top: auto;
+		bottom: 0;
+
+		width: 100%;
+		max-width: 720px;
+
+		.product-preview {
+			display: flex;
+			justify-content: space-around;
+			align-items: center;
+
+			max-width: 600px;
+
+			border-radius: 20px;
+
+			background-color: $content-color;
+		}
+	}
+}
+
+footer {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+
+	position: absolute;
+	top: auto;
+	bottom: 0;
+
+	width: 100%;
+	max-width: 720px;
+
+	padding: 20px;
+}
+
+.electron {
+	header {
+		margin-top: 30px;
+		h1 {
+			font-size: 50px;
+		}
+		button .iconify {
+			font-size: 40px;
+		}
+	}
+	img.cover {
+		width: 300px;
+	}
+
+	.container {
+		&.container-top {
+			margin-top: 160px;
+		}
+	}
+
+	.product-container {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-wrap: wrap;
+
+		.product {
+			width: 30%;
+
+			margin: 10px;
+
+			background-color: $background-color;
+
+			border: none;
+			border-radius: 20px;
+			box-shadow: 3px 3px 20px rgba($color: #000000, $alpha: 0.1);
+
+			.product-group {
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+
+				.product-innergroup {
+					align-items: center;
+				}
+			}
+		}
+	}
 }
 </style>

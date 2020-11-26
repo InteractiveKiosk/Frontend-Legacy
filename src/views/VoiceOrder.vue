@@ -56,6 +56,8 @@ export default class VoiceOrder extends Vue {
 		window.addEventListener("keydown", this.activatePTT);
 		window.addEventListener("keyup", this.deactivatePTT);
 
+		setTimeout(() => $tore.commit("playSpeech", "voiceorder/earphone_connected"), 1000);
+
 		// todo
 		this.parseText("사과 한개 복숭아 네개");
 	}
@@ -95,6 +97,8 @@ export default class VoiceOrder extends Vue {
 
 						if (matchCount in koreanNumber) quantity = koreanNumber[matchCount];
 						else quantity = Number(matchCount);
+
+						$tore.dispatch("TTS", `${item.name} ${quantity}개를 추가했습니다.`);
 
 						shoppingCart.push({
 							name: item.name,

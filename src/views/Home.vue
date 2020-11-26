@@ -1,11 +1,7 @@
 <template>
 	<div class="page-home">
 		<div class="banner">
-			<img
-				src="/assets/images/payments.svg"
-				alt="Payments Image"
-				draggable="false"
-			/>
+			<img src="/assets/images/payments.svg" alt="Payments Image" draggable="false" />
 			<div class="text">
 				<h2 class="title">다양한 사용자를 위한 KIOSK 개선 프로젝트</h2>
 				<span class="version">프로토타입</span>
@@ -20,19 +16,11 @@
 
 		<div class="main">
 			<template>
-				<app-button
-					v-if="!getEarphoneDetection"
-					@click="activateEarphoneDetection"
-					class="sound-active"
-				>
+				<app-button v-if="!getEarphoneDetection" @click="activateEarphoneDetection" class="sound-active">
 					<i data-icon="mdi-headphones" class="iconify" />
 					이어폰 감지 활성화
 				</app-button>
-				<app-button
-					v-else
-					disabled
-					class="sound-activeted"
-				>
+				<app-button v-else disabled class="sound-activeted">
 					<i data-icon="mdi-headphones" class="iconify" />
 					이어폰 감지 활성화됨
 				</app-button>
@@ -58,6 +46,8 @@
 import { Component, Vue } from "vue-property-decorator";
 import $tore from "@/store";
 
+let loop;
+
 @Component({})
 export default class Home extends Vue {
 	mounted() {
@@ -77,6 +67,7 @@ export default class Home extends Vue {
 	get getEarphoneDetection() {
 		return $tore.state.earphoneDetection;
 	}
+
 	activateEarphoneDetection() {
 		$tore.commit("activateEarphoneDetection");
 	}

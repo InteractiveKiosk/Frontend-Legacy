@@ -2,8 +2,18 @@ import Vue from "vue";
 import Vuex from "vuex";
 import axios from "axios";
 import qs from "qs";
+import CryptoJS from "crypto-js";
 
 import { StockItem } from "@/schema";
+
+let helloLoop: any;
+let speech: HTMLAudioElement;
+
+const playSpeech = (name: string) => {
+	if (speech) speech.pause();
+	speech = new Audio(`/assets/speech/${name}.mp3`);
+	speech.play();
+};
 
 Vue.use(Vuex);
 
@@ -51,8 +61,19 @@ export default new Vuex.Store({
 		isElectron: process.env.IS_ELECTRON ? true : false,
 	},
 	mutations: {
-		activateEarphoneDetection(state, payload) {
+		activateEarphoneDetection(state) {
 			state.earphoneDetection = true;
+			playSpeech("home/detection_activated");
+		},
+		playSpeech(state, name) {
+			playSpeech(name);
+		},
+		startHelloLoop(state) {
+			helloLoop = setInterval(() => playSpeech("home/hello"), 60000);
+		},
+		stopSpeech(state) {
+			if (speech) speech.pause();
+			clearInterval(helloLoop);
 		},
 		updateStock(
 			state,
@@ -93,14 +114,39 @@ export default new Vuex.Store({
 				})
 			).data.text;
 		},
-		async TTS({ commit, state }, data): Promise<void> {
+		async TTS({ commit, state }, text: string): Promise<void> {
+			try {
+				let checksum = CryptoJS.MD5(`3134${text}${process.env.VUE_APP_TTSACCOUNT}${process.env.VUE_APP_TTSID}${process.env.VUE_APP_TTSSECRET}`).toString();
+
+				let result: Blob = (
+					await axios.get(`http://www.vocalware.com/tts/gen.php?EID=3&LID=13&VID=4&TXT=${text}&ACC=${process.env.VUE_APP_TTSACCOUNT}&API=${process.env.VUE_APP_TTSID}&CS=${checksum}`, {
+						responseType: "blob",
+						headers: {
+							"Content-Type": "audio/mp3",
+						},
+					})
+				).data;
+
+				let blobUrl = URL.createObjectURL(result);
+				speech = new Audio(blobUrl);
+
+				speech.addEventListener("ended", () => {
+					URL.revokeObjectURL(blobUrl);
+				});
+
+				speech.play();
+			} catch (err) {
+				console.error(err);
+			}
+		},
+		async CLOVA_TTS({ commit, state }, text: string): Promise<void> {
 			try {
 				let result: Blob = (
 					await axios.post(
 						"https://naveropenapi.apigw.ntruss.com/voice-premium/v1/tts",
 						qs.stringify({
 							speaker: "nara",
-							text: data.text,
+							text: text,
 							volume: "0",
 							speed: "0",
 							pitch: "0",

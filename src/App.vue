@@ -15,10 +15,16 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Watch } from "vue-property-decorator";
+import $tore from "@/store";
 
 @Component({})
-export default class App extends Vue {}
+export default class App extends Vue {
+	@Watch("$route", { immediate: true, deep: true })
+	onRouteChange(newVal: any) {
+		$tore.commit("stopSpeech");
+	}
+}
 </script>
 
 <style lang="scss">
@@ -54,7 +60,7 @@ export default class App extends Vue {}
 html {
 	height: 100%;
 
-	background: #FFF;
+	background: #fff;
 
 	color: rgba(#000, 0.85);
 	font-family: "Noto Sans KR", sans-serif;
@@ -71,7 +77,7 @@ html {
 
 	#layout {
 		height: 100%;
-		
+
 		#main {
 			height: 100%;
 		}
@@ -91,7 +97,7 @@ html {
 
 		background-color: #1c1b29;
 
-		color: #FFF;
+		color: #fff;
 
 		.iconify {
 			margin-right: 8px;

@@ -3,6 +3,7 @@ import VueRouter, { RouteConfig } from "vue-router";
 import Home from "../views/Home.vue";
 import Order from "../views/Order.vue";
 import Admin from "../views/Admin.vue";
+import VoiceOrder from "../views/VoiceOrder.vue";
 
 Vue.use(VueRouter);
 
@@ -18,6 +19,11 @@ const routes: Array<RouteConfig> = [
 		component: Order,
 	},
 	{
+		path: "/voiceorder",
+		name: "VoiceOrder",
+		component: VoiceOrder,
+	},
+	{
 		path: "/admin",
 		name: "Admin",
 		component: Admin,
@@ -25,7 +31,7 @@ const routes: Array<RouteConfig> = [
 ];
 
 const router = new VueRouter({
-	mode: "history",
+	mode: process.env.IS_ELECTRON ? "hash" : "history",
 	base: process.env.BASE_URL,
 	routes,
 });

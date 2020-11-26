@@ -4,11 +4,7 @@
 			<h1>환영합니다</h1>
 		</header>
 		<div class="container">
-			<img
-				class="cover"
-				src="https://firebasestorage.googleapis.com/v0/b/interactive-kiosk.appspot.com/o/undraw_Payments_re_77x0.svg?alt=media&token=9c846d06-e185-4383-a40c-9f19511cd747"
-				alt="Payments Image"
-			/>
+			<img class="cover" src="/assets/undraw/payments.svg" alt="Payments Image" draggable="false" />
 
 			<i class="iconify headphones" data-icon="mdi-headphones"></i>
 			<h2>이어폰을 꽂으면 목소리로 주문할 수 있습니다.</h2>
@@ -18,7 +14,7 @@
 					<i class="iconify bell" data-icon="mdi-bell"></i>
 					도움 요청
 				</button>
-				<button class="block" @click="$router.replace('/order')">시작하기</button>
+				<button @click="$router.replace('/order')">시작하기</button>
 			</div>
 		</div>
 		<footer>
@@ -31,17 +27,21 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import $tore from "@/store";
 
 @Component({})
 export default class Home extends Vue {
 	mounted() {
 		navigator.mediaDevices.addEventListener("devicechange", event => {
 			try {
-				this.$router.replace("/order");
+				this.$router.replace("/voiceorder");
 			} catch (err) {
 				console.error(err);
 			}
 		});
+
+		// todo
+		$tore.commit("setTmpStock");
 	}
 }
 </script>

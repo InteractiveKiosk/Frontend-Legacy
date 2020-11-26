@@ -1,14 +1,12 @@
 <template>
 	<div id="app">
 		<router-view class="router" />
-		<img src="https://firebasestorage.googleapis.com/v0/b/interactive-kiosk.appspot.com/o/undraw_Payments_re_77x0.svg?alt=media&token=9c846d06-e185-4383-a40c-9f19511cd747" alt="Payments Image" />
-		<img src="https://firebasestorage.googleapis.com/v0/b/interactive-kiosk.appspot.com/o/undraw_shopping_app_flsj.svg?alt=media&token=c42c6b8c-293e-4b78-bc63-256e072cc012" alt="Order Image" />
 	</div>
 </template>
 
 <style lang="scss">
 @import "variables.scss";
-@import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css);
+@import url("https://spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css");
 
 * {
 	margin: 0;
@@ -29,21 +27,20 @@
 	height: 5px;
 	display: none;
 }
-// html {
-// 	background-color: $background-color;
-// 	color: $text-color;
-// 	position: fixed;
-// 	left: 0;
-// 	right: 0;
-// 	top: 0;
-// 	bottom: 0;
+html {
+	background-color: $background-color;
+	color: $text-color;
+	// position: fixed;
+	// left: 0;
+	// right: 0;
+	// top: 0;
+	// bottom: 0;
 
-// 	font-size: 24px;
-// 	word-break: keep-all;
-// 	-webkit-font-smoothing: antialiased;
-// 	-moz-osx-font-smoothing: grayscale;
-// 	overflow: hidden;
-// }
+	word-break: keep-all;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	overflow: hidden;
+}
 // body {
 // 	width: 100%;
 // 	height: 100%;
@@ -55,10 +52,6 @@
 	height: 100vh;
 	display: flex;
 	justify-content: center;
-
-	> img {
-		display: none;
-	}
 }
 .router {
 	height: 100%;
@@ -93,11 +86,6 @@ button {
 
 	&.large {
 		padding: 20px;
-	}
-
-	&.block {
-		display: block;
-		width: ;
 	}
 
 	&.round {

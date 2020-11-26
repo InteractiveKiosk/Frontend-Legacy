@@ -59,6 +59,10 @@ export default class Home extends Vue {
 					console.error(err);
 				}
 		});
+
+		setTimeout(() => {
+			if (this.getEarphoneDetection) $tore.commit("startHelloLoop");
+		}, 1000);
 	}
 
 	get isElectron() {

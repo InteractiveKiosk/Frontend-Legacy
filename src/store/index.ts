@@ -6,7 +6,6 @@ import CryptoJS from "crypto-js";
 
 import { StockItem } from "@/schema";
 
-let helloLoop: any;
 let speech: HTMLAudioElement;
 
 const playSpeech = (name: string) => {
@@ -14,6 +13,10 @@ const playSpeech = (name: string) => {
 	speech = new Audio(`/assets/speech/${name}.mp3`);
 	speech.play();
 };
+
+let helloLoop: number;
+const startHelloLoop = () => (helloLoop = window.setInterval(() => playSpeech("home/hello"), 10000));
+const stopHelloLoop = () => clearInterval(helloLoop);
 
 Vue.use(Vuex);
 
@@ -64,16 +67,18 @@ export default new Vuex.Store({
 		activateEarphoneDetection(state) {
 			state.earphoneDetection = true;
 			playSpeech("home/detection_activated");
+			startHelloLoop();
+		},
+		startHelloLoop() {
+			playSpeech("home/hello");
+			setTimeout(() => startHelloLoop(), 6000);
 		},
 		playSpeech(state, name) {
 			playSpeech(name);
 		},
-		startHelloLoop(state) {
-			helloLoop = setInterval(() => playSpeech("home/hello"), 60000);
-		},
-		stopSpeech(state) {
+		stopSpeech() {
 			if (speech) speech.pause();
-			clearInterval(helloLoop);
+			stopHelloLoop();
 		},
 		updateStock(
 			state,

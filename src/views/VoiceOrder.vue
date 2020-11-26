@@ -21,7 +21,7 @@ import { Component, Vue } from "vue-property-decorator";
 import $tore from "@/store";
 import { ShoppingCart } from "@/schema";
 
-const koreanNumber = require("@/koreanNumber.json");
+const koreanNumber = require("@/lib/koreanNumber.json");
 let koreanNumber_list: string[] = [];
 for (const [key, value] of Object.entries(koreanNumber)) koreanNumber_list.push(key);
 

@@ -10,6 +10,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
 	state: {
 		stock: [
+			//todo : category
 			{
 				name: "사과",
 				alias: ["사과", "사가"],
@@ -78,7 +79,7 @@ export default new Vuex.Store({
 	},
 	actions: {
 		async STT({ commit, state }, data): Promise<string> {
-			let result = (
+			return (
 				await axios.post("https://naveropenapi.apigw.ntruss.com/recog/v1/stt", data, {
 					params: {
 						lang: "Kor",
@@ -91,8 +92,6 @@ export default new Vuex.Store({
 					withCredentials: true,
 				})
 			).data.text;
-
-			return result;
 		},
 		async TTS({ commit, state }, data): Promise<void> {
 			try {
@@ -121,13 +120,13 @@ export default new Vuex.Store({
 				).data;
 
 				let blobUrl = URL.createObjectURL(result);
-
 				let speech = new Audio(blobUrl);
-				speech.play();
 
 				speech.addEventListener("ended", () => {
 					URL.revokeObjectURL(blobUrl);
 				});
+
+				speech.play();
 			} catch (err) {
 				console.error(err);
 			}

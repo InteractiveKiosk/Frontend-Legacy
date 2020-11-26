@@ -3,51 +3,49 @@ import Vuex from "vuex";
 import axios from "axios";
 import qs from "qs";
 
-Vue.use(Vuex);
+import { StockItem } from "../schema";
 
-interface StockItem {
-	name: string;
-	price: number;
-	alias: string[];
-	quantity: number;
-}
+Vue.use(Vuex);
 
 export default new Vuex.Store({
 	state: {
-		stock: [
-			{
-				name: "사과",
-				price: 1000,
-				alias: ["사과", "사가"],
-				quantity: 10,
-			},
-			{
-				name: "라면",
-				price: 500,
-				alias: ["라면", "라멘", "나면"],
-				quantity: 10,
-			},
-			{
-				name: "파스타",
-				price: 10000,
-				alias: ["파스타", "스파게티", "스파게리", "수파게티", "파수타"],
-				quantity: 10,
-			},
-			{
-				name: "복숭아",
-				price: 2000,
-				alias: ["복숭아", "봉숭아", "보숭아", "보숭이", "복숭", "보숭"],
-				quantity: 10,
-			},
-			{
-				name: "우유",
-				price: 3500,
-				alias: ["우유", "우우", "유유", "으유"],
-				quantity: 10,
-			},
-		],
+		stock: [] as StockItem[],
 	},
 	mutations: {
+		setTmpStock(state, payload) {
+			state.stock = [
+				{
+					name: "사과",
+					price: 1000,
+					alias: ["사과", "사가"],
+					quantity: 10,
+				},
+				{
+					name: "라면",
+					price: 500,
+					alias: ["라면", "라멘", "나면"],
+					quantity: 10,
+				},
+				{
+					name: "파스타",
+					price: 10000,
+					alias: ["파스타", "스파게티", "스파게리", "수파게티", "파수타"],
+					quantity: 10,
+				},
+				{
+					name: "복숭아",
+					price: 2000,
+					alias: ["복숭아", "봉숭아", "보숭아", "보숭이", "복숭", "보숭"],
+					quantity: 10,
+				},
+				{
+					name: "우유",
+					price: 3500,
+					alias: ["우유", "우우", "유유", "으유"],
+					quantity: 10,
+				},
+			];
+		},
 		// 재고 업데이트
 		updateStock(
 			state,

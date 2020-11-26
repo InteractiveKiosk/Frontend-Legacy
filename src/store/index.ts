@@ -10,9 +10,13 @@ Vue.use(Vuex);
 export default new Vuex.Store({
 	state: {
 		stock: [] as StockItem[],
+		earphoneDetection: false,
 		isElectron: process.env.IS_ELECTRON ? true : false,
 	},
 	mutations: {
+		activateEarphoneDetection(state, payload) {
+			state.earphoneDetection = true;
+		},
 		setTmpStock(state, payload) {
 			state.stock = [
 				{

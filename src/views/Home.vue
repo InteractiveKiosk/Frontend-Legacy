@@ -4,17 +4,20 @@
 			<h1>환영합니다</h1>
 		</header>
 		<div class="container">
-			<img class="cover" src="/assets/undraw/payments.svg" alt="Payments Image" draggable="false" />
+			<img class="cover" src="/assets/images/payments.svg" alt="Payments Image" draggable="false" />
 
-			<i class="iconify headphones" data-icon="mdi-headphones"></i>
-			<h2>이어폰을 꽂으면 목소리로 주문할 수 있습니다.</h2>
+			<div v-if="isElectron" class="vgroup">
+				<i class="iconify headphones" data-icon="mdi-headphones"></i>
+				<button v-if="!getEarphoneDetection" @click="activateEarphoneDetection">이어폰 감지 활성화</button>
+				<h2 v-else>이어폰을 꽂으면 목소리로 주문할 수 있습니다.</h2>
+			</div>
 
-			<div class="group">
+			<div class="hgroup">
 				<button class="small">
 					<i class="iconify bell" data-icon="mdi-bell"></i>
 					도움 요청
 				</button>
-				<button @click="$router.replace('/order')">시작하기</button>
+				<button class="block" @click="$router.replace('/order')">시작하기</button>
 			</div>
 		</div>
 		<footer>
@@ -27,17 +30,29 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import $tore from "@/store";
 
 @Component({})
 export default class Home extends Vue {
 	mounted() {
 		navigator.mediaDevices.addEventListener("devicechange", event => {
-			try {
-				this.$router.replace("/voiceorder");
-			} catch (err) {
-				console.error(err);
-			}
+			if (this.getEarphoneDetection)
+				try {
+					this.$router.replace("/voiceorder");
+				} catch (err) {
+					console.error(err);
+				}
 		});
+	}
+
+	get isElectron() {
+		return $tore.state.isElectron;
+	}
+	get getEarphoneDetection() {
+		return $tore.state.earphoneDetection;
+	}
+	activateEarphoneDetection() {
+		$tore.commit("activateEarphoneDetection");
 	}
 }
 </script>

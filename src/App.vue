@@ -13,9 +13,15 @@ import $tore from "@/store";
 @Component({})
 export default class App extends Vue {
 	mounted() {
+		// window.addEventListener("mousedown", this.mouseDown);
+		// window.addEventListener("mouseup", this.mouseUp);
+
 		// todo
 		$tore.commit("setTmpStock");
 	}
+
+	// mouseDown(event: MouseEvent) {}
+	// mouseUp() {}
 }
 </script>
 
@@ -153,6 +159,10 @@ button {
 		padding: 20px;
 	}
 
+	&.block {
+		padding: 8px 100px;
+	}
+
 	&.round {
 		border-radius: 50%;
 		display: flex;
@@ -209,15 +219,14 @@ header {
 	display: flex;
 	justify-content: space-between;
 
-	margin-top: 30px;
-	padding: 10px;
+	padding: 20px;
 
 	h1 {
 		font-size: 40px;
 	}
 
 	button .iconify {
-		font-size: 40px;
+		font-size: 30px;
 	}
 }
 
@@ -226,7 +235,6 @@ i.iconify {
 }
 
 .container {
-	margin-top: 60px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -235,12 +243,21 @@ i.iconify {
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		width: 300px;
-		margin: auto;
+		width: 250px;
+		margin: 0 auto 80px auto;
 	}
 }
 
-.group {
+.vgroup {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
+	margin: 60px 0;
+}
+
+.hgroup {
 	display: flex;
 
 	div,
@@ -250,27 +267,93 @@ i.iconify {
 }
 
 .product-container {
-	display: flex;
-	justify-content: center;
-	align-items: center;
+	width: 100%;
 
 	.product {
 		display: flex;
-		flex-direction: column;
-		justify-content: center;
+		flex-direction: row;
+		justify-content: flex-start;
 		align-items: center;
 
-		margin: 20px;
+		padding: 15px 20px;
 
-		box-shadow: rgba($color: #000000, $alpha: 0.7);
+		border-left: 5px solid #00000000;
 
-		img {
-			width: 40px;
-			// height: 200p;
+		cursor: pointer;
+
+		&:nth-child(odd) {
+			background-color: $background-color;
+		}
+		&:nth-child(even) {
+			background-color: $secondary-color;
 		}
 
-		span {
-			font-size: 24px;
+		&:hover {
+			border-left: 5px solid $primary-color;
+		}
+
+		img {
+			width: 50px;
+			margin-right: 10px;
+			border-radius: 50px;
+		}
+
+		.product-innergroup {
+			display: flex;
+			flex-direction: column;
+			font-weight: 500;
+
+			span.name {
+				font-size: 20px;
+			}
+
+			span.price {
+				font-size: 22px;
+			}
+		}
+	}
+}
+
+.electron {
+	header {
+		margin-top: 30px;
+		h1 {
+			font-size: 50px;
+		}
+		button .iconify {
+			font-size: 40px;
+		}
+	}
+	img.cover {
+		width: 300px;
+	}
+	.container {
+		margin-top: 40px;
+
+		.product-container {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			flex-wrap: wrap;
+
+			.product {
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+
+				margin: 10px;
+				width: 30%;
+
+				background-color: $background-color;
+
+				border: none;
+				border-radius: 20px;
+				box-shadow: 3px 3px 20px rgba($color: #000000, $alpha: 0.1);
+
+				.product-innergroup {
+					align-items: center;
+				}
+			}
 		}
 	}
 }

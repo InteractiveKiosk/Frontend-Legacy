@@ -1,3 +1,5 @@
+import "@types/dom-mediacapture-record";
+
 export interface StockItem {
 	name: string;
 	price: number;

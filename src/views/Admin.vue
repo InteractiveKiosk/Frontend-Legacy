@@ -1,14 +1,16 @@
 <template>
-	<div class="admin">
-		<header>
-			<h1>관리자</h1>
-			<button class="round small" @click="$router.replace('/')">
+	<div class="page-admin">
+		<header class="path-list">
+			<router-link to="/" class="path">
 				<i class="iconify home" data-icon="mdi-home"></i>
-			</button>
+			</router-link>
+			<span class="path">관리자</span>
 		</header>
-		<div class="container container-top">
-			재고 목록
-			{{ stock }}
+		<div
+			v-for="(item, index) in stock"
+			:key="index"
+		>
+			{{ item }}
 		</div>
 	</div>
 </template>
@@ -25,9 +27,33 @@ export default class Admin extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.admin {
-	.home {
-		font-size: 30px;
+.path-list {
+	display: flex;
+	align-items: center;
+
+	padding: 4px 24px;
+
+	background-color: rgba(#1c1b29, 0.8) !important;
+
+	color: rgba(#fff, 0.65);
+	font-size: 16px;
+
+	.path {
+		display: flex;
+		align-items: center;
+
+		&:not(:first-child)::before {
+			content: "＞";
+
+			margin: 0 8px;
+
+			color: rgba(#fff, 0.65);
+			font-size: 12px;
+		}
+
+		&:hover {
+			color: #fff;
+		}
 	}
 }
 </style>

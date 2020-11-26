@@ -27,7 +27,6 @@
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import $tore from "@/store";
 
 @Component({})
 export default class Home extends Vue {
@@ -39,22 +38,12 @@ export default class Home extends Vue {
 				console.error(err);
 			}
 		});
-
-		// todo
-		$tore.commit("setTmpStock");
 	}
 }
 </script>
 
 <style lang="scss" scoped>
 .home {
-	display: flex;
-	flex-direction: column;
-	// justify-content: center;
-	// align-self: center;
-
-	max-width: 720px;
-
 	.bell {
 		font-size: 30px;
 	}

@@ -1,18 +1,68 @@
 <template>
-	<div id="app">
-		<router-view class="router" />
+	<div id="app" :class="{ electron: $store.state.isElectron }">
+		<transition name="fade" mode="out-in">
+			<router-view class="router" />
+		</transition>
 	</div>
 </template>
 
+<script lang="ts">
+import { Component, Vue } from "vue-property-decorator";
+import $tore from "@/store";
+
+@Component({})
+export default class App extends Vue {
+	mounted() {
+		// todo
+		$tore.commit("setTmpStock");
+	}
+}
+</script>
+
 <style lang="scss">
 @import "variables.scss";
-@import url("https://spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css");
+@font-face {
+	font-family: "Noto Sans KR";
+	src: url("/assets/fonts/NotoSansKR-Thin.otf") format("opentype");
+	font-weight: 100;
+	font-display: swap;
+}
+@font-face {
+	font-family: "Noto Sans KR";
+	src: url("/assets/fonts/NotoSansKR-Light.otf") format("opentype");
+	font-weight: 300;
+	font-display: swap;
+}
+@font-face {
+	font-family: "Noto Sans KR";
+	src: url("/assets/fonts/NotoSansKR-Regular.otf") format("opentype");
+	font-weight: 400;
+	font-display: swap;
+}
+@font-face {
+	font-family: "Noto Sans KR";
+	src: url("/assets/fonts/NotoSansKR-Medium.otf") format("opentype");
+	font-weight: 500;
+	font-display: swap;
+}
+@font-face {
+	font-family: "Noto Sans KR";
+	src: url("/assets/fonts/NotoSansKR-Bold.otf") format("opentype");
+	font-weight: 700;
+	font-display: swap;
+}
+@font-face {
+	font-family: "Noto Sans KR";
+	src: url("/assets/fonts/NotoSansKR-Black.otf") format("opentype");
+	font-weight: 900;
+	font-display: swap;
+}
 
 * {
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
-	font-family: "Spoqa Han Sans";
+	font-family: "Noto Sans KR", sans-serif;
 }
 *::selection {
 	background-color: $select-color;
@@ -54,9 +104,24 @@ html {
 	justify-content: center;
 }
 .router {
-	height: 100%;
 	width: 100%;
+	height: 100%;
+
+	max-width: 720px;
+
 	overflow: hidden;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+	transition-duration: 0.2s;
+	transition-property: opacity;
+	transition-timing-function: ease-in-out;
+}
+
+.fade-enter,
+.fade-leave-active {
+	opacity: 0;
 }
 
 button {
@@ -148,7 +213,7 @@ header {
 	padding: 10px;
 
 	h1 {
-		font-size: 60px;
+		font-size: 40px;
 	}
 
 	button .iconify {
@@ -170,7 +235,7 @@ i.iconify {
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		width: 500px;
+		width: 300px;
 		margin: auto;
 	}
 }
@@ -181,6 +246,32 @@ i.iconify {
 	div,
 	button {
 		margin: 0 10px;
+	}
+}
+
+.product-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	.product {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+
+		margin: 20px;
+
+		box-shadow: rgba($color: #000000, $alpha: 0.7);
+
+		img {
+			width: 40px;
+			// height: 200p;
+		}
+
+		span {
+			font-size: 24px;
+		}
 	}
 }
 </style>

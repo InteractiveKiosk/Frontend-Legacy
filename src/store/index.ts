@@ -3,13 +3,14 @@ import Vuex from "vuex";
 import axios from "axios";
 import qs from "qs";
 
-import { StockItem } from "../schema";
+import { StockItem } from "@/schema";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
 	state: {
 		stock: [] as StockItem[],
+		isElectron: process.env.IS_ELECTRON ? true : false,
 	},
 	mutations: {
 		setTmpStock(state, payload) {
@@ -46,7 +47,6 @@ export default new Vuex.Store({
 				},
 			];
 		},
-		// 재고 업데이트
 		updateStock(
 			state,
 			payload: {

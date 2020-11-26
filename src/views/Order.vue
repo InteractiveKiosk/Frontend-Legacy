@@ -6,31 +6,40 @@
 				<i class="iconify" data-icon="mdi-home"></i>
 			</button>
 		</header>
-		<div class="container"></div>
+		<div class="container">
+			<div class="product-container">
+				<div class="product">
+					<img src="/assets/products/apple.jpg" alt="Apple" />
+					<span>Apple</span>
+					<button>선택</button>
+				</div>
+				<div class="product">
+					<img src="/assets/products/apple.jpg" alt="Apple" />
+					<span>Apple</span>
+					<button>선택</button>
+				</div>
+				<div class="product">
+					<img src="/assets/products/apple.jpg" alt="Apple" />
+					<span>Apple</span>
+					<button>선택</button>
+				</div>
+			</div>
+		</div>
 	</div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
+import $tore from "@/store";
+import { StockItem } from "@/schema";
 
 @Component({})
 export default class Order extends Vue {
-	itemCollection: {
-		name: string;
-		index: number;
-		price: number;
-		quantity: number;
-	}[] = [];
+	stock: StockItem[] = $tore.state.stock;
 }
 </script>
 
 <style lang="scss" scoped>
 .order {
-	display: flex;
-	flex-direction: column;
-	// justify-content: center;
-	// align-self: center;
-
-	max-width: 720px;
 }
 </style>

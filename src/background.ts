@@ -20,6 +20,11 @@ async function createWindow() {
 		show: false,
 	});
 
+	win.once("ready-to-show", () => {
+		win.show();
+		askForMediaAccess();
+	});
+
 	if (process.env.WEBPACK_DEV_SERVER_URL) {
 		// Load the url of the dev server if in development mode
 		await win.loadURL(process.env.WEBPACK_DEV_SERVER_URL as string);
@@ -29,11 +34,6 @@ async function createWindow() {
 		// Load the index.html when not in development
 		win.loadURL("app://./index.html");
 	}
-
-	win.once("ready-to-show", () => {
-		win.show();
-		askForMediaAccess();
-	});
 }
 
 async function askForMediaAccess(): Promise<boolean> {

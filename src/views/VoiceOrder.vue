@@ -7,7 +7,7 @@
 			</button>
 		</header>
 		<div class="container">
-			<img class="cover" src="/assets/undraw/shopping_app.svg" alt="Shopping Image" draggable="false" />
+			<img class="cover" src="/assets/images/shopping_app.svg" alt="Shopping Image" draggable="false" />
 
 			<!-- <audio :src="url" controls></audio> -->
 			<span>{{ payload }}</span>
@@ -53,29 +53,29 @@ export default class VoiceOrder extends Vue {
 	}
 
 	mounted() {
-		window.addEventListener("keydown", this.keyDown);
-		window.addEventListener("keyup", this.keyUp);
+		window.addEventListener("keydown", this.activatePTT);
+		window.addEventListener("keyup", this.deactivatePTT);
 
 		// todo
 		this.parseText("사과 한개 복숭아 네개");
 	}
 
-	keyDown(event: KeyboardEvent) {
+	activatePTT(event: KeyboardEvent) {
 		if (event.code !== "Space" || this.isKeyPressed) return;
 		this.isKeyPressed = true;
-		let activate = new Audio("https://firebasestorage.googleapis.com/v0/b/interactive-kiosk.appspot.com/o/ptt_activate.mp3?alt=media&token=281d146e-ccee-4917-b4f4-ac9afa15cf7c");
-		activate.play();
+		let reaction = new Audio("/assets/sound/ptt_activate.mp3");
+		reaction.play();
 		// 녹음 시작
-		this.mediaRecorder.start();
+		// this.mediaRecorder.start();
 	}
 
-	keyUp(event: KeyboardEvent) {
+	deactivatePTT(event: KeyboardEvent) {
 		if (event.code !== "Space" || !this.isKeyPressed) return;
 		this.isKeyPressed = false;
-		let deactivate = new Audio("https://firebasestorage.googleapis.com/v0/b/interactive-kiosk.appspot.com/o/ptt_deactivate.mp3?alt=media&token=a82a892e-208a-45ab-b04d-72cb3fbb1cc9");
-		deactivate.play();
+		let reaction = new Audio("/assets/sound/ptt_deactivate.mp3");
+		reaction.play();
 		// 녹음 종료
-		setTimeout(() => this.mediaRecorder.stop(), 300);
+		// setTimeout(() => this.mediaRecorder.stop(), 300);
 	}
 
 	async parseText(text: string) {

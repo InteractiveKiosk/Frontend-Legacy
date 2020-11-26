@@ -1,5 +1,5 @@
 var cacheName = "firebaseStorage";
-var urlsToCache = ["assets/undraw/payments.svg", "assets/undraw/shopping_app.svg"];
+var urlsToCache = ["/assets/images/payments.svg", "/assets/images/shopping_app.svg"];
 
 self.addEventListener("install", function(event) {
 	event.waitUntil(

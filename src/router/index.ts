@@ -1,9 +1,9 @@
 import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
-import Home from "../views/Home.vue";
-import Order from "../views/Order.vue";
-import Admin from "../views/Admin.vue";
-import VoiceOrder from "../views/VoiceOrder.vue";
+import Home from "@/views/Home.vue";
+import Order from "@/views/Order.vue";
+import Admin from "@/views/Admin.vue";
+import VoiceOrder from "@/views/VoiceOrder.vue";
 
 Vue.use(VueRouter);
 

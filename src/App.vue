@@ -22,7 +22,7 @@ import $tore from "@/store";
 export default class App extends Vue {
 	@Watch("$route", { immediate: true, deep: true })
 	onRouteChange(newVal: any) {
-		$tore.commit("stopSpeech");
+		$tore.commit("stopAudio");
 	}
 }
 </script>

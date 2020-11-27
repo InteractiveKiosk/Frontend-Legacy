@@ -59,14 +59,13 @@ export default class VoiceOrder extends Vue {
 		setTimeout(() => $tore.commit("playSpeech", "voiceorder/earphone_connected"), 1000);
 
 		// todo
-		this.parseText("사과 한개 복숭아 네개");
+		// this.parseText("사과 한개 복숭아 네개");
 	}
 
 	activatePTT(event: KeyboardEvent) {
 		if (event.code !== "Space" || this.isKeyPressed) return;
 		this.isKeyPressed = true;
-		let reaction = new Audio("/assets/sound/ptt_activate.mp3");
-		reaction.play();
+		$tore.commit("playSound", "ptt_activate");
 		// 녹음 시작
 		// this.mediaRecorder.start();
 	}
@@ -74,10 +73,13 @@ export default class VoiceOrder extends Vue {
 	deactivatePTT(event: KeyboardEvent) {
 		if (event.code !== "Space" || !this.isKeyPressed) return;
 		this.isKeyPressed = false;
-		let reaction = new Audio("/assets/sound/ptt_deactivate.mp3");
-		reaction.play();
+		$tore.commit("playSound", "ptt_deactivate");
 		// 녹음 종료
 		// setTimeout(() => this.mediaRecorder.stop(), 300);
+	}
+
+	async orderLoop() {
+		this.orderLoop();
 	}
 
 	async parseText(text: string) {

@@ -80,8 +80,7 @@ export default class VoiceOrder extends Vue {
 			};
 
 			await $tore.dispatch("PLAYAUDIO", "voiceorder/earphone_connected");
-			// 과금 방지를 위해 일시적으로 비활성화
-			// await $tore.dispatch("PLAYITEMS");
+			await $tore.dispatch("PLAYITEMS");
 			this.orderProcess();
 		}, 1000);
 	}

@@ -150,7 +150,10 @@ export default class VoiceOrder extends Vue {
 					.flat()
 					.join("|")}).*?(?:([1-9]+[0-9]*)|(열|스물|서른|마흔|쉰|예순|일흔|여든|아흔)(하나|둘|셋|다섯|여섯|일곱|여덟|아홉)?|(스무)|(한|하나|두|둘|세|셋|네|넷|다섯|여섯|일곱|여덟|아홉))`
 			);
-			let match = text.trim().match(reg);
+			let match = text
+				.trim()
+				.match(reg)
+				?.filter((i) => i);
 			console.log("TEXT", text, match);
 
 			if (!match?.length) throw "그런메뉴 없습니다.";

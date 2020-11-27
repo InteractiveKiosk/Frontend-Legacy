@@ -34,7 +34,7 @@ export default class VoiceOrder extends Vue {
 	blob: Blob | null = null;
 	mediaRecorder!: MediaRecorder;
 
-	shoppingCart: ShoppingCart[] = []; // 주문 모으기
+	shoppingCart: ShoppingCart[] = []; // 장바구니
 	payload: ShoppingCart[] = [];
 
 	async created() {
@@ -93,6 +93,8 @@ export default class VoiceOrder extends Vue {
 			// 말하기 허용
 			this.isSpeakable = true;
 
+			// parseText 끝날때까지 대기
+
 			// 반복
 			// this.orderProcess();
 		} else {
@@ -116,6 +118,8 @@ export default class VoiceOrder extends Vue {
 	}
 
 	async parseText(text: string) {
+		let unavailableItems: string[] = []; // 주문 불가한 제품
+
 		try {
 			// 모든 상품 리스트 확인
 			$tore.state.stock.forEach((item, index) => {
@@ -131,37 +135,59 @@ export default class VoiceOrder extends Vue {
 						if (matchCount in koreanNumber) quantity = koreanNumber[matchCount];
 						else quantity = Number(matchCount);
 
-						// await $tore.dispatch("TTS", `${item.name} ${quantity}개를 추가했습니다.`);
-						$tore.commit("checkStock", { index: index, quantity: quantity });
-						this.shoppingCart.push({
-							name: item.name,
+						// 수량 확인
+						$tore.commit("checkStock", {
 							index: index,
-							price: item.price,
-							quantity: quantity,
+							quantity: item.quantity,
+							callback: (error: null | string) => {
+								if (error) {
+									// 재고 부족하여 주문 불가능 목록에 추가
+									unavailableItems.push(item.name);
+								} else {
+									this.shoppingCart.push({
+										name: item.name,
+										index: index,
+										price: item.price,
+										quantity: quantity,
+									});
+								}
+							},
 						});
 						break;
 					}
 				}
 			});
 
-			// 주문 처리
-			this.payload = [];
+			let shoppingCartItems: string = "";
 			this.shoppingCart.forEach(item => {
-				$tore.commit("updateStock", {
-					index: item.index,
-					quantity: -item.quantity,
-					callback: (error: null | string) => {
-						if (error) {
-							console.log("수량 부족");
-						} else {
-							this.payload.push(item);
-						}
-					},
-				});
+				shoppingCartItems += `${item.name} ${item.quantity}, `;
 			});
+
+			let unavailableNames: string = "";
+			if (!unavailableItems.length) unavailableNames = unavailableItems.join(", ");
+
+			await $tore.dispatch("TTS", `장바구니에 추가된 메뉴는 ${shoppingCartItems}${unavailableItems.length ? `이며, 주문이 불가능한 메뉴는 ${unavailableNames}입니다.` : "입니다."}`);
 		} catch (err) {
 			console.error(err);
 		}
+	}
+
+	updateStock() {
+		// 주문 처리 및 재고 업데이트
+		this.payload = [];
+		this.shoppingCart.forEach(item => {
+			$tore.commit("updateStock", {
+				index: item.index,
+				quantity: -item.quantity,
+				callback: (error: null | string) => {
+					if (error) {
+						console.log("수량 부족");
+					} else {
+						this.payload.push(item);
+					}
+				},
+			});
+		});
 	}
 }
 </script>

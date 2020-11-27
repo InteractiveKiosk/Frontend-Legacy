@@ -49,8 +49,28 @@
 						@click="() => count < stock[selected].quantity && count++"
 					>+</app-button>
 				</div>
-				<app-button>장바구니에 추가</app-button>
+				<app-button @click="addCart">장바구니에 추가</app-button>
 			</div>
+		</div>
+		<div
+			v-if="shoppingCart.length"
+			class="cart"
+		>
+			<div
+				v-for="item in shoppingCart"
+				:key="item.index"
+				class="item"
+			>
+				<img
+					:src="`/assets/products/${stock[item.index].image}`"
+					:alt="item.name"
+				>
+				<div class="info">
+					<span class="name">{{ item.name }} x {{ item.quantity }}</span>
+					<span class="price">{{ numberFormat(item.price * item.quantity) }} 원</span>
+				</div>
+			</div>
+			<app-button class="submit">주문하기</app-button>
 		</div>
 	</div>
 </template>
@@ -75,6 +95,17 @@ export default class Order extends Vue {
 		this.selected = index;
 		this.count = 1;
 	}
+	addCart() {
+		if (this.selected != null) {
+			this.shoppingCart.push({
+				name: this.stock[this.selected].name,
+				index: this.selected,
+				price: this.stock[this.selected].price,
+				quantity: this.count
+			});
+			this.selected = null;
+		}
+	}
 }
 </script>
 
@@ -86,7 +117,7 @@ export default class Order extends Vue {
 
 	grid-template-columns: repeat(auto-fill, 200px);
 
-	padding: 24px;
+	padding: 24px 24px 280px 24px;
 
 	.product {
 		display: flex;
@@ -127,17 +158,15 @@ export default class Order extends Vue {
 .product-control {
 	position: fixed;
 	bottom: 0;
-	left: 50%;
+	right: 0;
 
 	display: flex;
 
 	border: 1px solid #eee;
-	border-bottom: 0;
-	border-radius: 16px 16px 0 0;
+	border-width: 1px 0 0 1px;
+	border-radius: 16px 0 0 0;
 
 	overflow: hidden;
-
-	transform: translateX(-50%);
 
 	img {
 		width: 128px;
@@ -182,6 +211,51 @@ export default class Order extends Vue {
 				margin: 0 8px;
 
 				text-align: center;
+			}
+		}
+	}
+}
+.cart {
+	display: flex;
+	flex-direction: column;
+
+	position: fixed;
+	bottom: 0;
+	left: 0;
+
+	width: 256px;
+	height: 256px;
+	overflow-y: auto;
+
+	border: 1px solid #eee;
+	border-width: 1px 1px 0 0;
+	border-top-right-radius: 16px;
+
+	background-color: #fff;
+
+	.submit {
+		border-radius: 0;
+	}
+	.item {
+		display: flex;
+
+		img {
+			flex: 0 0;
+			width: 64px;
+			height: 64px;
+		}
+		.info {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+
+			flex: 1 1;
+			padding: 16px;
+
+			border-bottom: 1px solid #f5f5f5;
+
+			.price {
+				color: rgba(#000, 0.6);
 			}
 		}
 	}

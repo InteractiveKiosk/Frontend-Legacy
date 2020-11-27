@@ -92,18 +92,18 @@ export default new Vuex.Store({
 		stopAudio() {
 			stopAudio();
 		},
-		checkStock(state, payload: { index: number; amount: number; callback: (error: null | { type: boolean }) => boolean }) {
+		checkStock(state, payload: { index: number; quantity: number; callback: (error: null | { type: boolean }) => boolean }) {
 			// 남은 수량 확인
-			if (state.stock[payload.index].quantity < payload.amount) {
+			if (state.stock[payload.index].quantity < payload.quantity) {
 				if (payload.callback) payload.callback({ type: false });
-				return true;
 			}
+			return true;
 		},
 		updateStock(
 			state,
 			payload: {
 				index: number; // 상품 인덱스
-				amount: number; // 필요 개수
+				quantity: number; // 필요 개수
 				callback?: (
 					error: null | {
 						// 오류 상태 콜백
@@ -113,12 +113,12 @@ export default new Vuex.Store({
 			}
 		) {
 			// 남은 수량 확인
-			if (state.stock[payload.index].quantity < payload.amount) {
+			if (state.stock[payload.index].quantity < payload.quantity) {
 				if (payload.callback) payload.callback({ type: "OVER_ORDER" });
 				return;
 			}
 			// 수량 업데이트
-			state.stock[payload.index].quantity += payload.amount;
+			state.stock[payload.index].quantity += payload.quantity;
 			if (payload.callback) payload.callback(null);
 		},
 	},
@@ -128,16 +128,12 @@ export default new Vuex.Store({
 			return await playAudio(true, name);
 		},
 		async PLAYITEMS({ commit, dispatch, state }, data): Promise<any> {
-			console.log(state.stock);
-
-			let stockList: string = "";
-			state.stock.forEach(element => {
-				stockList += `${element.name}, `;
-			});
-
 			// 재고 상태 출력
+			let stockList: string = "";
+			state.stock.forEach(item => {
+				stockList += `${item.name}, `;
+			});
 			await playAudio(true, "voiceorder/item_list");
-
 			await dispatch("TTS", stockList);
 		},
 		async STT({}, data): Promise<string> {

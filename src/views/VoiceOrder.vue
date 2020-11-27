@@ -132,7 +132,7 @@ export default class VoiceOrder extends Vue {
 						else quantity = Number(matchCount);
 
 						// await $tore.dispatch("TTS", `${item.name} ${quantity}개를 추가했습니다.`);
-
+						$tore.commit("checkStock", { index: index, quantity: quantity });
 						this.shoppingCart.push({
 							name: item.name,
 							index: index,

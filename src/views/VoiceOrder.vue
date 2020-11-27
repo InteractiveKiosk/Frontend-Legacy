@@ -10,8 +10,9 @@
 			<img class="cover" src="/assets/images/shopping_app.svg" alt="Shopping Image" draggable="false" />
 
 			<!-- <audio :src="url" controls></audio> -->
-			<span>{{ payload }}</span>
-			{{ isKeyPressed }}
+			shoppingCart: {{ shoppingCart }}<br />
+			isKeyPressed(PTT 활성화) : {{ isKeyPressed }}<br />
+			isSpeakable(말할 수 있음) : {{ isSpeakable }}
 		</div>
 	</div>
 </template>
@@ -62,7 +63,8 @@ export default class VoiceOrder extends Vue {
 
 		setTimeout(async () => {
 			await $tore.dispatch("PLAYAUDIO", "voiceorder/earphone_connected");
-			await $tore.dispatch("PLAYITEMS");
+			// 과금 방지를 위해 일시적으로 비활성화
+			// await $tore.dispatch("PLAYITEMS");
 			this.orderProcess();
 		}, 1000);
 	}
@@ -93,14 +95,19 @@ export default class VoiceOrder extends Vue {
 			// 말하기 허용
 			this.isSpeakable = true;
 
-			// parseText 끝날때까지 대기
+			// todo : dummy
+			this.parseText("라면 100개 사과 17개 복숭아 세개");
+
+			// todo : parseText 끝날때까지 대기
 
 			// 반복
 			// this.orderProcess();
 		} else {
-			// 다음 단계로 넘어감
+			// todo : 다음 단계로 넘어감
 			return;
 		}
+		// todo : 주문 단계
+
 		// 	this.step++;
 		// 	switch (this.step) {
 		// 		case 0:
@@ -121,6 +128,8 @@ export default class VoiceOrder extends Vue {
 		let unavailableItems: string[] = []; // 주문 불가한 제품
 
 		try {
+			// todo
+
 			// 모든 상품 리스트 확인
 			$tore.state.stock.forEach((item, index) => {
 				// 모든 별명 확인
@@ -166,7 +175,8 @@ export default class VoiceOrder extends Vue {
 			let unavailableNames: string = "";
 			if (!unavailableItems.length) unavailableNames = unavailableItems.join(", ");
 
-			await $tore.dispatch("TTS", `장바구니에 추가된 메뉴는 ${shoppingCartItems}${unavailableItems.length ? `이며, 주문이 불가능한 메뉴는 ${unavailableNames}입니다.` : "입니다."}`);
+			console.log(`장바구니에 추가된 메뉴는 ${shoppingCartItems}${unavailableItems.length ? `이며, 주문이 불가능한 메뉴는 ${unavailableNames}입니다.` : "입니다."}`);
+			// await $tore.dispatch("TTS", `장바구니에 추가된 메뉴는 ${shoppingCartItems}${unavailableItems.length ? `이며, 주문이 불가능한 메뉴는 ${unavailableNames}입니다.` : "입니다."}`);
 		} catch (err) {
 			console.error(err);
 		}

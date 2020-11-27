@@ -60,10 +60,10 @@ export default class VoiceOrder extends Vue {
 		window.addEventListener("keydown", this.activatePTT);
 		window.addEventListener("keyup", this.deactivatePTT);
 
-		setTimeout(() => {
-			$tore.commit("playSpeech", "voiceorder/earphone_connected");
+		setTimeout(async () => {
+			await $tore.dispatch("PLAYAUDIO", { isLocal: true, data: "voiceorder/earphone_connected" });
 			this.orderProcess();
-		}, 1000);
+		}, 2000);
 
 		// todo
 		// this.parseText("사과 한개 복숭아 네개");
@@ -89,8 +89,8 @@ export default class VoiceOrder extends Vue {
 	async orderProcess() {
 		if (this.isOrderCycle === true) {
 			// 장바구니 개수 0개이면 초기 음성 출력
-			if (!this.shoppingCart.length) $tore.commit("playSpeech", "voiceorder/ask");
-			else $tore.commit("playSpeech", "voiceorder/ask_another");
+			if (!this.shoppingCart.length) await $tore.dispatch("PLAYAUDIO", { isLocal: true, data: "voiceorder/ask" });
+			else await $tore.dispatch("PLAYAUDIO", { isLocal: true, data: "voiceorder/ask_another" });
 
 			// 말하기 허용
 			this.isSpeakable = true;

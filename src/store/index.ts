@@ -7,17 +7,20 @@ import CryptoJS from "crypto-js";
 import { StockItem } from "@/schema";
 
 let audio: HTMLAudioElement;
-const playAudio = (isLocal: boolean, data: string) => {
+const playAudio = async (isLocal: boolean, data: string) => {
 	if (audio) audio.pause();
 
 	let url: string = isLocal ? `/assets/sound/${data}.mp3` : data;
 	audio = new Audio(url);
 
-	audio.addEventListener("ended", () => {
-		URL.revokeObjectURL(url);
-	});
-
 	audio.play();
+
+	return new Promise(resolve => {
+		audio.addEventListener("ended", () => {
+			URL.revokeObjectURL(url);
+			setTimeout(() => resolve(), 500);
+		});
+	});
 };
 const stopAudio = () => {
 	if (audio) audio.pause();
@@ -25,7 +28,7 @@ const stopAudio = () => {
 };
 
 let helloLoop: number;
-const startHelloLoop = () => (helloLoop = window.setInterval(() => playAudio(true, "home/hello"), 10000));
+const startHelloLoop = () => (helloLoop = window.setInterval(() => playAudio(true, "home/hello"), 21000));
 const stopHelloLoop = () => clearInterval(helloLoop);
 
 Vue.use(Vuex);
@@ -116,6 +119,9 @@ export default new Vuex.Store({
 		},
 	},
 	actions: {
+		async PLAYAUDIO({ commit, state }, data): Promise<any> {
+			return await playAudio(data.isLocal, data.data);
+		},
 		async STT({ commit, state }, data): Promise<string> {
 			return (
 				await axios.post("https://naveropenapi.apigw.ntruss.com/recog/v1/stt", data, {

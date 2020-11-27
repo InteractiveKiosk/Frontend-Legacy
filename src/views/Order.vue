@@ -8,7 +8,7 @@
 		</header>
 		<div class="container container-top">
 			<div class="product-container">
-				<div v-for="(item, idx) in stock">
+				<div v-for="(item, idx) in stock" :key="idx">
 					<div class="product" @click="toggleVisibility">
 						<img :src="`/assets/products/${item.image}`" :alt="item.name" />
 						<div class="product-innergroup">

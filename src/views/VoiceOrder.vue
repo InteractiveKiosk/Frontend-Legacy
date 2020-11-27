@@ -28,9 +28,13 @@ for (const [key, value] of Object.entries(koreanNumber)) koreanNumber_list.push(
 @Component({})
 export default class VoiceOrder extends Vue {
 	isKeyPressed: boolean = false;
+	isOrderCycle: boolean = true;
+	isSpeakable: boolean = false;
 	// url: string = "";
 	blob: Blob | null = null;
 	mediaRecorder!: MediaRecorder;
+
+	shoppingCart: ShoppingCart[] = []; // 주문 모으기
 	payload: ShoppingCart[] = [];
 
 	async created() {
@@ -56,15 +60,19 @@ export default class VoiceOrder extends Vue {
 		window.addEventListener("keydown", this.activatePTT);
 		window.addEventListener("keyup", this.deactivatePTT);
 
-		setTimeout(() => $tore.commit("playSpeech", "voiceorder/earphone_connected"), 1000);
+		setTimeout(() => {
+			$tore.commit("playSpeech", "voiceorder/earphone_connected");
+			this.orderProcess();
+		}, 1000);
 
 		// todo
 		// this.parseText("사과 한개 복숭아 네개");
 	}
 
 	activatePTT(event: KeyboardEvent) {
-		if (event.code !== "Space" || this.isKeyPressed) return;
+		if (event.code !== "Space" || this.isKeyPressed || !this.isSpeakable) return;
 		this.isKeyPressed = true;
+		this.isSpeakable = false;
 		$tore.commit("playSound", "ptt_activate");
 		// 녹음 시작
 		// this.mediaRecorder.start();
@@ -78,14 +86,39 @@ export default class VoiceOrder extends Vue {
 		// setTimeout(() => this.mediaRecorder.stop(), 300);
 	}
 
-	async orderLoop() {
-		this.orderLoop();
+	async orderProcess() {
+		if (this.isOrderCycle === true) {
+			// 장바구니 개수 0개이면 초기 음성 출력
+			if (!this.shoppingCart.length) $tore.commit("playSpeech", "voiceorder/ask");
+			else $tore.commit("playSpeech", "voiceorder/ask_another");
+
+			// 말하기 허용
+			this.isSpeakable = true;
+
+			// 반복
+			this.orderProcess();
+		} else {
+			// 다음 단계로 넘어감
+			return;
+		}
+		// 	this.step++;
+		// 	switch (this.step) {
+		// 		case 0:
+		// 			this.isOrderCycle();
+		// 			break;
+		// 		case 1:
+		// 			this.isOrderCycle();
+		// 			break;
+		// 		case 2:
+		// 			break;
+		// 		case 3:
+		// 			break;
+		// 		default:
+		// 	}
 	}
 
 	async parseText(text: string) {
 		try {
-			let shoppingCart: ShoppingCart[] = []; // 주문 모으기
-
 			// 모든 상품 리스트 확인
 			$tore.state.stock.forEach((item, index) => {
 				// 모든 별명 확인
@@ -102,7 +135,7 @@ export default class VoiceOrder extends Vue {
 
 						$tore.dispatch("TTS", `${item.name} ${quantity}개를 추가했습니다.`);
 
-						shoppingCart.push({
+						this.shoppingCart.push({
 							name: item.name,
 							index: index,
 							price: item.price,
@@ -115,7 +148,7 @@ export default class VoiceOrder extends Vue {
 
 			// 주문 처리
 			this.payload = [];
-			shoppingCart.forEach(item => {
+			this.shoppingCart.forEach(item => {
 				$tore.commit("updateStock", {
 					index: item.index,
 					quantity: -item.quantity,

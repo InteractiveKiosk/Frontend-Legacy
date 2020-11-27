@@ -7,9 +7,16 @@ import CryptoJS from "crypto-js";
 import { StockItem } from "@/schema";
 
 let audio: HTMLAudioElement;
-const playAudio = (dir: string, name: string) => {
+const playAudio = (isLocal: boolean, data: string) => {
 	if (audio) audio.pause();
-	audio = new Audio(`/assets/${dir}/${name}.mp3`);
+
+	let url: string = isLocal ? `/assets/sound/${data}.mp3` : data;
+	audio = new Audio(url);
+
+	audio.addEventListener("ended", () => {
+		URL.revokeObjectURL(url);
+	});
+
 	audio.play();
 };
 const stopAudio = () => {
@@ -18,7 +25,7 @@ const stopAudio = () => {
 };
 
 let helloLoop: number;
-const startHelloLoop = () => (helloLoop = window.setInterval(() => playSpeech("home/hello"), 10000));
+const startHelloLoop = () => (helloLoop = window.setInterval(() => playAudio(true, "home/hello"), 10000));
 const stopHelloLoop = () => clearInterval(helloLoop);
 
 Vue.use(Vuex);
@@ -69,18 +76,18 @@ export default new Vuex.Store({
 	mutations: {
 		activateEarphoneDetection(state) {
 			state.earphoneDetection = true;
-			playAudio("speech", "home/detection_activated");
+			playAudio(true, "home/detection_activated");
 			startHelloLoop();
 		},
 		startHelloLoop() {
-			playAudio("speech", "home/hello");
+			playAudio(true, "home/hello");
 			setTimeout(() => startHelloLoop(), 6000);
 		},
 		playSpeech(state, name) {
-			playAudio("speech", name);
+			playAudio(true, name);
 		},
 		playSound(state, name) {
-			playAudio("sound", name);
+			playAudio(true, name);
 		},
 		stopAudio() {
 			stopAudio();
@@ -138,13 +145,7 @@ export default new Vuex.Store({
 				).data;
 
 				let blobUrl = URL.createObjectURL(result);
-				speech = new Audio(blobUrl);
-
-				speech.addEventListener("ended", () => {
-					URL.revokeObjectURL(blobUrl);
-				});
-
-				speech.play();
+				playAudio(false, blobUrl);
 			} catch (err) {
 				console.error(err);
 			}
@@ -176,13 +177,7 @@ export default new Vuex.Store({
 				).data;
 
 				let blobUrl = URL.createObjectURL(result);
-				let speech = new Audio(blobUrl);
-
-				speech.addEventListener("ended", () => {
-					URL.revokeObjectURL(blobUrl);
-				});
-
-				speech.play();
+				playAudio(false, blobUrl);
 			} catch (err) {
 				console.error(err);
 			}

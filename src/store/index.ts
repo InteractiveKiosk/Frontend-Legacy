@@ -15,10 +15,10 @@ const playAudio = async (isLocal: boolean, data: string) => {
 
 	audio.play();
 
-	return new Promise(resolve => {
+	return new Promise<void>(resolve => {
 		audio.addEventListener("ended", () => {
 			URL.revokeObjectURL(url);
-			setTimeout(() => resolve(), 500);
+			setTimeout(() => resolve(), 400);
 		});
 	});
 };
@@ -86,14 +86,18 @@ export default new Vuex.Store({
 			playAudio(true, "home/hello");
 			setTimeout(() => startHelloLoop(), 6000);
 		},
-		playSpeech(state, name) {
-			playAudio(true, name);
-		},
-		playSound(state, name) {
+		playAudio(state, name) {
 			playAudio(true, name);
 		},
 		stopAudio() {
 			stopAudio();
+		},
+		checkStock(state, payload: { index: number; amount: number; callback: (error: null | { type: boolean }) => boolean }) {
+			// 남은 수량 확인
+			if (state.stock[payload.index].quantity < payload.amount) {
+				if (payload.callback) payload.callback({ type: false });
+				return true;
+			}
 		},
 		updateStock(
 			state,
@@ -119,10 +123,24 @@ export default new Vuex.Store({
 		},
 	},
 	actions: {
-		async PLAYAUDIO({ commit, state }, data): Promise<any> {
-			return await playAudio(data.isLocal, data.data);
+		// async TEST({ commit, dispatch, state }, data): Promise<T> { }
+		async PLAYAUDIO({}, name): Promise<any> {
+			return await playAudio(true, name);
 		},
-		async STT({ commit, state }, data): Promise<string> {
+		async PLAYITEMS({ commit, dispatch, state }, data): Promise<any> {
+			console.log(state.stock);
+
+			let stockList: string = "";
+			state.stock.forEach(element => {
+				stockList += `${element.name}, `;
+			});
+
+			// 재고 상태 출력
+			await playAudio(true, "voiceorder/item_list");
+
+			await dispatch("TTS", stockList);
+		},
+		async STT({}, data): Promise<string> {
 			return (
 				await axios.post("https://naveropenapi.apigw.ntruss.com/recog/v1/stt", data, {
 					params: {
@@ -137,7 +155,7 @@ export default new Vuex.Store({
 				})
 			).data.text;
 		},
-		async TTS({ commit, state }, text: string): Promise<void> {
+		async TTS({}, text: string): Promise<any> {
 			try {
 				let checksum = CryptoJS.MD5(`3134${text}${process.env.VUE_APP_TTSACCOUNT}${process.env.VUE_APP_TTSID}${process.env.VUE_APP_TTSSECRET}`).toString();
 
@@ -151,12 +169,12 @@ export default new Vuex.Store({
 				).data;
 
 				let blobUrl = URL.createObjectURL(result);
-				playAudio(false, blobUrl);
+				return await playAudio(false, blobUrl);
 			} catch (err) {
 				console.error(err);
 			}
 		},
-		async CLOVA_TTS({ commit, state }, text: string): Promise<void> {
+		async CLOVA_TTS({}, text: string): Promise<any> {
 			try {
 				let result: Blob = (
 					await axios.post(
@@ -183,7 +201,7 @@ export default new Vuex.Store({
 				).data;
 
 				let blobUrl = URL.createObjectURL(result);
-				playAudio(false, blobUrl);
+				return await playAudio(false, blobUrl);
 			} catch (err) {
 				console.error(err);
 			}

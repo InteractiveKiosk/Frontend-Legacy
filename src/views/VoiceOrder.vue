@@ -61,42 +61,40 @@ export default class VoiceOrder extends Vue {
 		window.addEventListener("keyup", this.deactivatePTT);
 
 		setTimeout(async () => {
-			await $tore.dispatch("PLAYAUDIO", { isLocal: true, data: "voiceorder/earphone_connected" });
+			await $tore.dispatch("PLAYAUDIO", "voiceorder/earphone_connected");
+			await $tore.dispatch("PLAYITEMS");
 			this.orderProcess();
-		}, 2000);
-
-		// todo
-		// this.parseText("사과 한개 복숭아 네개");
+		}, 1000);
 	}
 
 	activatePTT(event: KeyboardEvent) {
 		if (event.code !== "Space" || this.isKeyPressed || !this.isSpeakable) return;
 		this.isKeyPressed = true;
 		this.isSpeakable = false;
-		$tore.commit("playSound", "ptt_activate");
+		$tore.commit("playAudio", "voiceorder/ptt_activate");
 		// 녹음 시작
-		// this.mediaRecorder.start();
+		this.mediaRecorder.start();
 	}
 
 	deactivatePTT(event: KeyboardEvent) {
 		if (event.code !== "Space" || !this.isKeyPressed) return;
 		this.isKeyPressed = false;
-		$tore.commit("playSound", "ptt_deactivate");
+		$tore.commit("playAudio", "voiceorder/ptt_deactivate");
 		// 녹음 종료
-		// setTimeout(() => this.mediaRecorder.stop(), 300);
+		setTimeout(() => this.mediaRecorder.stop(), 300);
 	}
 
 	async orderProcess() {
 		if (this.isOrderCycle === true) {
 			// 장바구니 개수 0개이면 초기 음성 출력
-			if (!this.shoppingCart.length) await $tore.dispatch("PLAYAUDIO", { isLocal: true, data: "voiceorder/ask" });
-			else await $tore.dispatch("PLAYAUDIO", { isLocal: true, data: "voiceorder/ask_another" });
+			if (!this.shoppingCart.length) await $tore.dispatch("PLAYAUDIO", "voiceorder/ask");
+			else await $tore.dispatch("PLAYAUDIO", "voiceorder/ask_another");
 
 			// 말하기 허용
 			this.isSpeakable = true;
 
 			// 반복
-			this.orderProcess();
+			// this.orderProcess();
 		} else {
 			// 다음 단계로 넘어감
 			return;
@@ -133,7 +131,7 @@ export default class VoiceOrder extends Vue {
 						if (matchCount in koreanNumber) quantity = koreanNumber[matchCount];
 						else quantity = Number(matchCount);
 
-						$tore.dispatch("TTS", `${item.name} ${quantity}개를 추가했습니다.`);
+						// await $tore.dispatch("TTS", `${item.name} ${quantity}개를 추가했습니다.`);
 
 						this.shoppingCart.push({
 							name: item.name,

@@ -115,6 +115,36 @@ html {
 		flex: 1 1;
 
 		overflow: hidden auto;
+
+		.path-list {
+			display: flex;
+			align-items: center;
+
+			padding: 4px 24px;
+
+			background-color: rgba(#1c1b29, 0.8) !important;
+
+			color: rgba(#fff, 0.65);
+			font-size: 16px;
+
+			.path {
+				display: flex;
+				align-items: center;
+
+				&:not(:first-child)::before {
+					content: "＞";
+
+					margin: 0 8px;
+
+					color: rgba(#fff, 0.65);
+					font-size: 12px;
+				}
+
+				&:hover {
+					color: #fff;
+				}
+			}
+		}
 	}
 }
 </style>

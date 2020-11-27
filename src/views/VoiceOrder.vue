@@ -150,6 +150,7 @@ export default class VoiceOrder extends Vue {
 					.flat()
 					.join("|")}).*?(?:([1-9]+[0-9]*)|(열|스물|서른|마흔|쉰|예순|일흔|여든|아흔)(하나|둘|셋|다섯|여섯|일곱|여덟|아홉)?|(스무)|(한|하나|두|둘|세|셋|네|넷|다섯|여섯|일곱|여덟|아홉))`
 			);
+			// FIXME: 여러개 상품 지워
 			let match = text
 				.trim()
 				.match(reg)
@@ -179,7 +180,7 @@ export default class VoiceOrder extends Vue {
 			// 수량에 에러가있거나, 갯수가 부족할 시
 			if (item.quantity - quantity < 0 || !quantity) unavailableItems.push(item.name);
 			else {
-				let prevItem = tmpShoppingCart.find((item) => item.name == item.name);
+				let prevItem = tmpShoppingCart.find((i) => i.name == item.name);
 				if (!prevItem) tmpShoppingCart.push({ ...item, quantity });
 				else {
 					prevItem.quantity += quantity;

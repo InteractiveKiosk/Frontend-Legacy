@@ -4,7 +4,7 @@
 			<div id="layout">
 				<header class="layout-header">
 					<app-button to="/" class="title">
-						<i data-icon="mdi-bell" class="iconify" />
+						<i data-icon="mdi-account-voice" class="iconify" />
 						Interactive Kiosk
 					</app-button>
 				</header>

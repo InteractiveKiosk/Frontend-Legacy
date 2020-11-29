@@ -152,7 +152,7 @@ export default class VoiceOrder extends Vue {
 			let match = text
 				.trim()
 				.match(reg)
-				?.filter((i) => i);
+				?.filter(i => i);
 			console.log("TEXT", text, match);
 
 			if (!match?.length) throw "그런메뉴 없습니다.";
@@ -219,6 +219,11 @@ export default class VoiceOrder extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.voiceorder {
+img {
+	display: block;
+
+	width: calc(50% - 32px);
+	max-height: 370px;
+	margin-right: 32px;
 }
 </style>

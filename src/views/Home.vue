@@ -16,19 +16,15 @@
 
 		<div class="main">
 			<template>
-				<app-button v-if="!getEarphoneDetection" @click="activateEarphoneDetection" class="sound-active">
+				<app-button v-if="$store.state.isElectron && !getEarphoneDetection" @click="activateEarphoneDetection">
 					<i data-icon="mdi-headphones" class="iconify" />
 					이어폰 감지 활성화
 				</app-button>
-				<app-button v-else disabled class="sound-activeted">
-					<i data-icon="mdi-headphones" class="iconify" />
-					이어폰 감지 활성화됨
-				</app-button>
 			</template>
 			<div class="group">
-				<app-button>
+				<app-button disabled="disabled">
 					<i data-icon="mdi-bell" class="iconify" />
-					도움 요청
+					도움 요청(개발중)
 				</app-button>
 				<app-button to="/admin">
 					<i data-icon="mdi-key" class="iconify" />
@@ -45,8 +41,6 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import $tore from "@/store";
-
-let loop;
 
 @Component({})
 export default class Home extends Vue {
@@ -73,7 +67,7 @@ export default class Home extends Vue {
 	}
 
 	activateEarphoneDetection() {
-		$tore.commit("activateEarphoneDetection");
+		if (!this.getEarphoneDetection) $tore.commit("activateEarphoneDetection");
 	}
 }
 </script>

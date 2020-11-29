@@ -145,10 +145,11 @@ export default class VoiceOrder extends Vue {
 			// 수량만 묶어 가져옴
 			let reg = new RegExp(
 				`(${$tore.state.stock
-					.map(item => item.alias)
+					.map((item) => item.alias)
 					.flat()
 					.join("|")}).*?(?:([1-9]+[0-9]*)|(열|스물|서른|마흔|쉰|예순|일흔|여든|아흔)(하나|둘|셋|다섯|여섯|일곱|여덟|아홉)?|(스무)|(한|하나|두|둘|세|셋|네|넷|다섯|여섯|일곱|여덟|아홉))`
 			);
+			// FIXME: 여러개 상품 지워
 			let match = text
 				.trim()
 				.match(reg)
@@ -161,7 +162,7 @@ export default class VoiceOrder extends Vue {
 			console.log("menuAlias:", menuAlias);
 
 			// 인덱스 가져오기
-			let index = $tore.state.stock.findIndex(item => item.alias.indexOf(menuAlias) != -1);
+			let index = $tore.state.stock.findIndex((item) => item.alias.indexOf(menuAlias) != -1);
 			if (index == -1) throw "그런메뉴 없습니다.";
 			let item = $tore.state.stock[index];
 
@@ -178,7 +179,7 @@ export default class VoiceOrder extends Vue {
 			// 수량에 에러가있거나, 갯수가 부족할 시
 			if (item.quantity - quantity < 0 || !quantity) unavailableItems.push(item.name);
 			else {
-				let prevItem = tmpShoppingCart.find(item => item.name == item.name);
+				let prevItem = tmpShoppingCart.find((i) => i.name == item.name);
 				if (!prevItem) tmpShoppingCart.push({ ...item, quantity });
 				else {
 					prevItem.quantity += quantity;
@@ -187,7 +188,7 @@ export default class VoiceOrder extends Vue {
 
 			this.shoppingCart = this.shoppingCart.concat(tmpShoppingCart);
 
-			let clearStr = `장바구니에 추가된 메뉴는 ${tmpShoppingCart.map(item => item.name).join(",") || "없"}${
+			let clearStr = `장바구니에 추가된 메뉴는 ${tmpShoppingCart.map((item) => item.name).join(",") || "없"}${
 				unavailableItems.length ? `이며, 주문이 불가능한 메뉴는 ${unavailableItems.join(",")}입니다.` : "입니다."
 			}`;
 			console.log(clearStr);
